@@ -45,15 +45,22 @@
     <p>
       {{ feedbackForm.value | json }} {{ feedbackForm.status }}
     </p>
-    <form novalidate [formGroup]="feedbackForm" (ngSubmit)="OnSubmit()">
+    <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="OnSubmit()">
       <p>
         <mat-form-field class="half-width">
           <input matInput formControlName='firstname' placeholder="First Name" type="text" required>
+          <mat-error *ngIf="feedbackForm.get('firstname').hasError('required') && feedbackForm.get('firstname').touched">
+            First name is required
+          </mat-error>
         </mat-form-field>
 
 
         <mat-form-field class="half-width">
             <input matInput formControlName='lastname' placeholder="Last Name" type="text" required>
+            <mat-error *ngIf="feedbackForm.get('lastname').hasError('required') && feedbackForm.get('lastname').touched">
+                Last name is required
+              </mat-error>
+            
           </mat-form-field>
 
 
@@ -68,7 +75,15 @@
   
           <mat-form-field class="half-width">
               <input matInput formControlName='email' placeholder="Email" type="email" required>
-            </mat-form-field>
+              
+              <mat-error *ngIf="feedbackForm.get('email').hasError('required') && feedbackForm.get('email').touched">
+                  Email is required
+                </mat-error>
+              
+  
+           
+
+          </mat-form-field>
   
   
   
@@ -95,7 +110,9 @@
             </mat-form-field>
           </p>
           <button type="submit" mat-button 
-            class="backgroud-primary text-floral-white">
+            class="backgroud-primary text-floral-white" 
+           [disabled]="feedbackForm.invalid">
+            Submit
           </button>
 
     </form>
