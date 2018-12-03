@@ -14,10 +14,10 @@ import {DishService} from '../services/dish.service';
 })
 export class MenuComponent implements OnInit {
 
-  dishes: Dish[];// = DISHES;
+  dishes: Dish[];
          
 
-  selectedDish: Dish;// = DISHES[0];
+  selectedDish: Dish;
 
 
   constructor(private dishService: DishService) { }
