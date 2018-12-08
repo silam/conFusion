@@ -27,7 +27,6 @@ import { ContactComponent } from './contact/contact.component';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
 
-
 @NgModule({
   declarations: [
     AppComponent,

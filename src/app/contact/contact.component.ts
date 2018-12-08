@@ -28,25 +28,23 @@ export class ContactComponent implements OnInit {
 
   validationMessages = {
     'firstname': {
-      'required' : 'First name is required',
-      'minLength' : 'at least 2 characters long',
-      'maxLength' : 'not more than 25 characters long'
+      'required':      'First Name is required.',
+      'minlength':     'First Name must be at least 2 characters long.',
+      'maxlength':     'FirstName cannot be more than 25 characters long.'
     },
     'lastname': {
-      'required' : 'Last name is required',
-      'minLength' : 'at least 2 characters long',
-      'maxLength' : 'not more than 25 characters long'
+      'required':      'Last Name is required.',
+      'minlength':     'Last Name must be at least 2 characters long.',
+      'maxlength':     'Last Name cannot be more than 25 characters long.'
     },
-
     'telnum': {
-      'required' : 'telnum is required',
-      'pattern' : 'Tel. Number conain only numbers'
+      'required':      'Tel. number is required.',
+      'pattern':       'Tel. number must contain only numbers.'
     },
     'email': {
-      'required' : 'email is required',
-      'email' : 'email is not in valid format'
-    }
-
+      'required':      'Email is required.',
+      'email':         'Email not in valid format.'
+    },
   };
 
   constructor(private fb: FormBuilder) { 
