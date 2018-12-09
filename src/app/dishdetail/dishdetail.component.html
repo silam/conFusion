@@ -20,7 +20,7 @@
 
 
 
-          <img mat-card-image src={{dish.image}} alt={{dish.name}}>
+          <img mat-card-image src="{{BaseURL + dish.image}}" alt={{dish.name}}>
 
 
 
@@ -165,7 +165,7 @@
     </div>
     
     
-  <div fxFlex [hidden]="dish">
+  <div fxFlex [hidden]="dish || errMess">
       <mat-spinner>
     
       </mat-spinner>
