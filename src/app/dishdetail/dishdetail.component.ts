@@ -20,7 +20,7 @@ export class DishdetailComponent implements OnInit {
 
   commentForm : FormGroup;
   comment: Comment;
-
+  dishcopy : Dish;
 
   @ViewChild('fform') commentFormDirective;
 
@@ -78,7 +78,7 @@ export class DishdetailComponent implements OnInit {
     //this.dishService.getDish(id)
     //.subscribe(dish => {this.dish = dish; this.setPrevNext(dish.id)} );
     this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
-    .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); }
+    .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); }
        ,errmess => this.errMess = <any>errmess);
 
   }
@@ -141,7 +141,14 @@ export class DishdetailComponent implements OnInit {
     this.comment.date = event.toISOString();
     
 
-    this.dish.comments.push(this.comment);
+    this.dishcopy.comments.push(this.comment);
+    this.dishService.putDish(this.dishcopy)
+      .subscribe(dish => {
+        this.dish = dish;
+        this.dishcopy = dish;
+      },
+      errmess => { this.dish = null;this.dishcopy = null; 
+                    this.errMess = <any>errmess});
 
     // ensure reset form to pristine value
     // ensure reset form to pristine value
