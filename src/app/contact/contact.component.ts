@@ -3,6 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {FeedBack, ContactType } from '../shared/feedback';
 //import { ENGINE_METHOD_NONE } from 'constants';
 import { Directive, Input, ViewChild} from '@angular/core';
+import { HttpClient, HttpHeaders } from  '@angular/common/http';
+import { baseURL } from '../shared/baseurl';
+import { map, catchError, delay } from 'rxjs/operators';
+import { ProcessHTTPMsgService } from '../services/process-httpmsg.service';
+import { Observable, of } from 'rxjs';
+import { FeedbackService } from "../services/feedback.service";
 
 @Component({
   selector: 'app-contact',
@@ -13,11 +19,18 @@ export class ContactComponent implements OnInit {
 
   feedbackForm : FormGroup;
   feedback: FeedBack;
+
+  retfeedbackForm : FormGroup;
+  retfeedback: FeedBack;
+
   contacttype = ContactType;
+
+  visibilityFlag = 0;
 
   // form reset to pristine value
   // ensure the form reset to initial value
   @ViewChild('fform') feedbackFormDirective
+  @ViewChild('retfform') retfeedbackFormDirective
 
   formErrors = {
     'firstname' : '',
@@ -47,8 +60,13 @@ export class ContactComponent implements OnInit {
     },
   };
 
-  constructor(private fb: FormBuilder) { 
+  constructor(private feedbackService: FeedbackService
+    ,private fb: FormBuilder,
+    private http: HttpClient,
+    private processHTTPMsgService: ProcessHTTPMsgService)  { 
     this.createForm();
+
+    this.visibilityFlag = 0;
   }
 
   ngOnInit() {
@@ -71,8 +89,36 @@ export class ContactComponent implements OnInit {
         .subscribe( data => this.onValueChanged(data));
 
       this.onValueChanged();// reset form validataion message
-  }
 
+
+
+
+      this.retfeedbackForm = this.fb.group(
+        {
+          firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+          lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+          telnum: [0, [Validators.required, Validators.pattern]],
+          email: ['', [Validators.required, Validators.email]],
+          agree: false,
+          contacttype: 'None',
+          message: ''
+        }
+      );
+        
+      this.retfeedbackForm.valueChanges
+      .subscribe( data => this.onFBValueChanged(data));
+
+      this.onFBValueChanged();// reset form validataion message
+
+
+  }
+  onFBValueChanged(data?: any)
+  {
+    if ( !this.retfeedbackForm)
+    {
+      return;
+    }
+  }
   onValueChanged(data?: any)
   {
     if ( !this.feedbackForm)
@@ -103,10 +149,45 @@ export class ContactComponent implements OnInit {
       }
     }
   }
+
+
   onSubmit()
   {
+
+    this.visibilityFlag = 1;
+
+    var event = new Date(Date.now());
+
+    
+    console.log(event.toTimeString());
+
+
     this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
+    this.retfeedback = null;
+
+    this.feedbackService.submitFeedback(this.feedback)
+    .subscribe(feedback => {
+
+      this.visibilityFlag = 2;
+      this.retfeedback = feedback;
+    
+      var event = new Date(Date.now());
+
+    
+      console.log(event.toTimeString());
+
+        setTimeout(()=>{   
+          var event = new Date(Date.now());
+
+    
+          console.log(event.toTimeString());
+
+        this.visibilityFlag = 0;
+      }, 5000);
+    });
+    
+    
+   
     this.feedbackForm.reset({
 
       firstname : '',
@@ -121,5 +202,8 @@ export class ContactComponent implements OnInit {
 
     // ensure reset form to pristine value
     this.feedbackFormDirective.resetForm();
+    
   }
+
+  
 }

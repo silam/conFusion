@@ -36,8 +36,42 @@
     </div>
   </div>
 
+  <div fxFlex [hidden] = "visibilityFlag != 1">
+    <mat-spinner>
+  
+    </mat-spinner>
+    <h4>Loading ... Please Wait!</h4>
+  </div>
 
-  <div fxFlex fxFlexOffset="20px" 
+
+  <div fxFlex  [hidden] = "visibilityFlag != 2"  *ngIf="retfeedback">
+      <h3>
+       Your Submission
+      </h3>
+      <p>
+        First Name: {{ retfeedback.firstname }}
+      </p>
+      <p>
+          Last Name: {{ retfeedback.lastname }}
+      </p>
+        <p>
+            Tel Number: {{ retfeedback.telnum }}
+        </p>
+        <p>
+            Email : {{ retfeedback.email }}
+        </p>
+        <p>
+            Contact You?: {{ retfeedback.agree }}
+        </p>
+        <p>
+            How?: {{ retfeedback.contacttype }}
+        </p>
+        <p>
+            Feed back: {{ retfeedback.message }}
+        </p>
+  </div>
+
+  <div fxFlex fxFlexOffset="20px"  [hidden] = "visibilityFlag != 0"
     class="form-size" >
     <h3>
       Send us your feedback

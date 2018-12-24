@@ -20,3 +20,13 @@ body {
 .flex-spacer {
     flex: 1 1 auto;
 }
+
+.backgound-pale{
+    color: lightgreen;
+}
+.highlight{
+    background-color: lightgreen;
+    border: 1px solid lightblue;
+    z-index: 1;
+    transform: scale(1.01);
+}

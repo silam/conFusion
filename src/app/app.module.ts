@@ -25,7 +25,7 @@ import { DishdetailComponent } from './dishdetail/dishdetail.component'
 
 import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
-
+import { FeedbackService } from './services/feedback.service';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
@@ -82,7 +82,8 @@ import { baseURL } from './shared/baseURL';
     DishService,
     PromotionService,
     LeaderService,
-    ProcessHTTPMsgService,
+    FeedbackService,
+    ProcessHTTPMsgService, 
     { provide: 'BaseURL' , useValue: baseURL }
   ],
 
